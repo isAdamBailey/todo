@@ -15,6 +15,7 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
+    "@mdi/font": "^3.4.93",
     "@vue/cli-plugin-babel": "^3.11.0",
     "@vue/cli-plugin-e2e-cypress": "^3.11.0",
     "@vue/cli-plugin-eslint": "^3.11.0",

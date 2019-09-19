@@ -3,6 +3,7 @@ import App from "./App.vue";
 import Buefy from "buefy";
 import "buefy/dist/buefy.css";
 import "./assets/app.scss";
+import "@mdi/font/css/materialdesignicons.min.css";
 
 Vue.use(Buefy);
 
