@@ -7,6 +7,9 @@
           <b-button class="is-primary" @click="isAddModalActive = true">
             Add A Todo
           </b-button>
+          <b-button class="is-warning" @click="deleteAllTodos">
+            Delete All Todos
+          </b-button>
         </div>
 
         <b-table :data="todos" default-sort="priority">
@@ -124,8 +127,10 @@ export default {
     },
     onEditTodo(item) {
       const todo = this.findTodo(item);
+      // Apply the updated values
       todo.todo = item.todo;
       todo.priority = item.priority;
+      // close the modal
       this.isEditModalActive = false;
     },
     deleteTodo(item) {
@@ -136,8 +141,21 @@ export default {
         hasIcon: true,
         message: `Are you sure you want to delete ${item.name}? This cannot be undone.`,
         onConfirm: () => {
+          // find in the array and remove
           const index = this.todos.indexOf(item);
           this.todos.splice(index, 1);
+        }
+      });
+    },
+    deleteAllTodos() {
+      this.$buefy.dialog.confirm({
+        title: `Deleting Todos`,
+        confirmText: "Delete Todos",
+        type: "is-danger",
+        hasIcon: true,
+        message: `Are you sure you want to delete all the todos on your list? This cannot be undone.`,
+        onConfirm: () => {
+          this.todos = [];
         }
       });
     },
