@@ -150,7 +150,7 @@ export default {
         confirmText: "Delete Todo",
         type: "is-danger",
         hasIcon: true,
-        message: `Are you sure you want to delete ${item.name}? This cannot be undone.`,
+        message: `Are you sure you want to delete this item? This cannot be undone.`,
         onConfirm: () => {
           // find in the array and remove
           const index = this.todos.indexOf(item);
