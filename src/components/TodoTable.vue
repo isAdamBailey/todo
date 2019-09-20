@@ -74,7 +74,7 @@ export default {
       initialTodos: [
         {
           id: 1,
-          todo: "Go on a run",
+          todo: "Consider Adam as a candidate",
           priority: "life changing"
         },
         {
@@ -95,7 +95,7 @@ export default {
         {
           id: 5,
           todo: "Smell the roses",
-          priority: "meh"
+          priority: "important"
         }
       ],
       todos: [],
