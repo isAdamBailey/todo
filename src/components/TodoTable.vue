@@ -23,6 +23,14 @@
                 @click="openEditModal(todos.row)"
               ></b-button>
             </b-table-column>
+
+            <b-table-column label="Delete">
+              <b-button
+                type="is-text"
+                icon-left="delete"
+                @click="deleteTodo(todos.row)"
+              ></b-button>
+            </b-table-column>
           </template>
         </b-table>
       </div>
@@ -81,12 +89,27 @@ export default {
       this.selectedTodo = todo;
       this.isEditModalActive = true;
     },
-    async onEditTodo(item) {
-      const todo = await this.todos.find(todo => todo.id === item.id);
-      console.log(todo);
+    onEditTodo(item) {
+      const todo = this.findTodo(item);
       todo.todo = item.todo;
       todo.priority = item.priority;
       this.isEditModalActive = false;
+    },
+    deleteTodo(item) {
+      this.$buefy.dialog.confirm({
+        title: `Deleting Todo`,
+        confirmText: "Delete Todo",
+        type: "is-danger",
+        hasIcon: true,
+        message: `Are you sure you want to delete ${item.name}? This cannot be undone.`,
+        onConfirm: () => {
+          const index = this.todos.indexOf(item);
+          this.todos.splice(index, 1);
+        }
+      });
+    },
+    findTodo(item) {
+      return this.todos.find(todo => todo.id === item.id);
     }
   }
 };
