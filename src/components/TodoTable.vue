@@ -2,6 +2,13 @@
   <div>
     <section class="section">
       <div class="container">
+
+        <div class="level">
+          <b-button class="is-primary" @click="isAddModalActive = true">
+            Add A Todo
+          </b-button>
+        </div>
+
         <b-table :data="todos" default-sort="priority">
           <template slot-scope="todos">
             <b-table-column field="id" label="ID" width="40" sortable numeric>
@@ -39,18 +46,27 @@
     <b-modal :active.sync="isEditModalActive" has-modal-card>
       <todo-edit-modal
         :todo="selectedTodo"
+        :priorities="priorities"
         @edit-todo="onEditTodo"
       ></todo-edit-modal>
+    </b-modal>
+
+    <b-modal :active.sync="isAddModalActive" has-modal-card>
+      <todo-add-modal
+        @add-todo="onAddTodo"
+        :priorities="priorities"
+      ></todo-add-modal>
     </b-modal>
   </div>
 </template>
 
 <script>
 import TodoEditModal from "@/components/TodoEditModal";
+import TodoAddModal from "@/components/TodoAddModal";
 
 export default {
   name: "TodoTable",
-  components: { TodoEditModal },
+  components: { TodoEditModal, TodoAddModal },
   data() {
     return {
       todos: [
@@ -80,14 +96,31 @@ export default {
           priority: "meh"
         }
       ],
+      priorities: [
+        { id: 1, name: "life changing" },
+        { id: 2, name: "important" },
+        { id: 3, name: "meh" }
+      ],
       isEditModalActive: false,
-      selectedTodo: {}
+      selectedTodo: {},
+      isAddModalActive: false
     };
   },
   methods: {
     openEditModal(todo) {
       this.selectedTodo = todo;
       this.isEditModalActive = true;
+    },
+    onAddTodo(item) {
+      // get the highest number id to iterate on it
+      const highestId = Math.max.apply(Math, this.todos.map(item => item.id));
+      // Add the item to the array
+      this.todos.push({
+        id: highestId + 1,
+        todo: item.title,
+        priority: item.priority
+      });
+      this.isAddModalActive = false;
     },
     onEditTodo(item) {
       const todo = this.findTodo(item);

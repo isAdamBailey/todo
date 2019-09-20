@@ -1,7 +1,7 @@
 <template>
   <div class="modal-card" style="width: auto">
     <header class="modal-card-head">
-      <p class="modal-card-title">Edit Todo</p>
+      <p class="modal-card-title">Add Todo</p>
     </header>
     <section class="modal-card-body">
       <b-field label="Title">
@@ -25,19 +25,15 @@
       <button class="button" type="button" @click="$parent.close()">
         Close
       </button>
-      <button class="button is-primary" @click="editTodo">Save</button>
+      <button class="button is-primary" @click="addTodo">Save</button>
     </footer>
   </div>
 </template>
 
 <script>
 export default {
-  name: "TodoEditModal",
+  name: "TodoAddModal",
   props: {
-    todo: {
-      type: Object,
-      required: true
-    },
     priorities: {
       type: Array,
       required: true
@@ -45,22 +41,17 @@ export default {
   },
   data() {
     return {
-      title: "",
-      priority: ""
+      priority: "",
+      title: ""
     };
   },
-  mounted() {
-    this.title = this.todo.todo;
-    this.priority = this.todo.priority;
-  },
   methods: {
-    editTodo() {
+    addTodo() {
       const payload = {
-        id: this.todo.id,
-        todo: this.title,
-        priority: this.priority
+        priority: this.priority,
+        title: this.title
       };
-      this.$emit("edit-todo", payload);
+      this.$emit("add-todo", payload);
     }
   }
 };
