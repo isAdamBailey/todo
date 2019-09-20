@@ -2,7 +2,6 @@
   <div>
     <section class="section">
       <div class="container">
-
         <div class="level">
           <b-button class="is-primary" @click="isAddModalActive = true">
             Add A Todo
@@ -72,7 +71,7 @@ export default {
   components: { TodoEditModal, TodoAddModal },
   data() {
     return {
-      todos: [
+      initialTodos: [
         {
           id: 1,
           todo: "Go on a run",
@@ -99,6 +98,7 @@ export default {
           priority: "meh"
         }
       ],
+      todos: [],
       priorities: [
         { id: 1, name: "life changing" },
         { id: 2, name: "important" },
@@ -108,6 +108,13 @@ export default {
       selectedTodo: {},
       isAddModalActive: false
     };
+  },
+  mounted() {
+    if (localStorage.getItem("todos")) {
+      this.todos = JSON.parse(localStorage.getItem("todos"));
+    } else {
+      this.todos = this.initialTodos;
+    }
   },
   methods: {
     openEditModal(todo) {
@@ -123,6 +130,8 @@ export default {
         todo: item.title,
         priority: item.priority
       });
+      // save the updated array in localstorage
+      this.saveLocalStorageTodos();
       this.isAddModalActive = false;
     },
     onEditTodo(item) {
@@ -130,6 +139,8 @@ export default {
       // Apply the updated values
       todo.todo = item.todo;
       todo.priority = item.priority;
+      // save the updated array in localstorage
+      this.saveLocalStorageTodos();
       // close the modal
       this.isEditModalActive = false;
     },
@@ -144,6 +155,8 @@ export default {
           // find in the array and remove
           const index = this.todos.indexOf(item);
           this.todos.splice(index, 1);
+          // save the updated array in localstorage
+          this.saveLocalStorageTodos();
         }
       });
     },
@@ -156,11 +169,17 @@ export default {
         message: `Are you sure you want to delete all the todos on your list? This cannot be undone.`,
         onConfirm: () => {
           this.todos = [];
+          // save the updated array in localstorage
+          this.saveLocalStorageTodos();
         }
       });
     },
     findTodo(item) {
       return this.todos.find(todo => todo.id === item.id);
+    },
+    saveLocalStorageTodos() {
+      localStorage.setItem("todos", JSON.stringify(this.todos));
+      this.todos = JSON.parse(localStorage.getItem("todos"));
     }
   }
 };
