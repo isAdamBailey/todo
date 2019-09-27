@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <todo-header
-      title="ForgeRock Todo List"
-      sub-title="A todo list for the ForgeRock coding challenge"
-    ></todo-header>
+    <todo-header></todo-header>
     <todo-table></todo-table>
   </div>
 </template>
